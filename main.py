@@ -17,8 +17,11 @@ def createquestion(r,n):    #r是最大数字，n是算式数量，暂不考虑�
     for i in range(n):
         count=createnumber(2,4)     #算式中项的个数
         string=''                   #将算式保存在字符串中
+        sign='+'
         for j in range(1,count+1):  #创建第一项到最后一项
             num=createnumber(0,r)
+            if sign and sign=='/' and num==0:
+                num=createnumber(1,r)
             num=str(num)
             string+=num
             if(j==count):
@@ -51,21 +54,24 @@ def CalculateResult(Question):
                         listnum.append(num)
             if(elem=='+'or elem=='-' or elem=='*'or elem=='/'):
                 listsign.append(elem)
-        for i in listnum:
-            if(len(listnum)==1):
-                break
-            if i==0:
+        flag=True
+        while(len(listnum)!=1):
+            if(flag==True):
+                flag=False
                 continue
             if(listsign[0]=='+'):
-                listnum[0]=int(listnum[0])
-                listnum[1]=int(listnum[1])
+                listnum[0]=float(listnum[0])
+                listnum[1]=float(listnum[1])
                 listnum[0]+=listnum[1]
                 del listnum[1]
-            if(listsign[0]=='-'):
-                listnum[0]=int(listnum[0])
-                listnum[1]=int(listnum[1])
+                del listsign[0]
+            elif(listsign[0]=='-'):
+                listnum[0]=float(listnum[0])
+                listnum[1]=float(listnum[1])
                 listnum[0]-=listnum[1]
                 del listnum[1]
+                del listsign[0]
+        listnum[0]=float(listnum[0])
         print(listnum)
         Result.append(listnum)
     return Result     
