@@ -16,36 +16,54 @@ def CreateQuestion(r):    #r是最大数字,暂不考虑分数和括号
     count=createnumber(2,4)     #算式中项的个数
     string=''                   #将算式保存在字符串中
     sign='+'
-    wait=0
     kuohao=0
+    flag=True
     for j in range(1,count+1):  #创建第一项到最后一项
-        if(count!=2 and j!=count):
-            if(createnumber(0,1)==1):
+        if( count!=2 and j!=count): #不在首项前，仅有两项时，以及最后一项生成左括号
+            if(createnumber(1,1)==1):
                 string+='('
                 kuohao+=1
+                flag=True
         num=createnumber(0,r)
         if sign and sign=='/' and num==0:
             num=createnumber(1,r)
-        wait+=1
-        if(wait!=0):
+        num=str(num)
+        string+=num
+        if(kuohao!=0 and flag==False):
             if(createnumber(0,1)==1):
                 string+=')'
                 kuohao-=1
-        num=str(num)
-        string+=num
+
         if(j==count):   #不要生成过多的符号
             break
         sign=createsign()
         string+=sign
+        flag=False
     while kuohao!=0:
         string+=')'
         kuohao-=1
     return string
 
+def CutKuoHao(q):
+    if(q[0]=='('):
+        Q=[]
+        string=''
+        for i in q:
+            Q.append(i)
+        del Q[0]
+        del Q[-1]
+        for i in Q:
+            string+=i
+        q=string
+    else:
+        pass
+    return q
+
 def CreateQuestions(r,n):   #r是最大数字，n是算式数量
     Questions=[]
     for i in range(n):
         q=CreateQuestion(r)
+        q=CutKuoHao(q)
         Questions.append(q)
     return Questions
 
@@ -114,9 +132,9 @@ def CalculateResults(Questions):
     return Results
 
 if __name__=='__main__':
-    Questions=CreateQuestions(10-1,3)
+    Questions=CreateQuestions(10-1,10)
     print(Questions)
-    Results=CalculateResults(Questions)
-    print(Results)
+    #Results=CalculateResults(Questions)
+    #print(Results)
         
 
