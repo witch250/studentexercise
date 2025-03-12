@@ -13,13 +13,13 @@ def createsign():
     return random.choice(sign)
 
 def CreateQuestion(r):    #r是最大数字,暂不考虑分数和括号
-    count=createnumber(2,4)     #算式中项的个数
+    count=createnumber(3,4)     #算式中项的个数
     string=''                   #将算式保存在字符串中
     sign='+'
     kuohao=0                    #括号个数
     flag=True                   #当前轮是否有'('生成
     for j in range(1,count+1):  #创建第一项到最后一项
-        if( count!=2 and j!=count): #不在首项前，仅有两项时，以及最后一项生成左括号
+        if(j!=1 count!=2 and j!=count): #不在首项前，仅有两项时，以及最后一项生成左括号
             if(createnumber(0,1)==1):   #50%
                 string+='('
                 kuohao+=1
@@ -48,10 +48,14 @@ def CutKuoHao(q):   #删除首个括号，使它更加简洁
     if(q[0]=='('and q[-1]==')'):
         Q=[]
         string=''
+        kuohao=0
         for i in q:
+            if i=='(':
+                kuohao+=1
+            if i==')':
+                kuohao-=1
             Q.append(i)
-        del Q[0]
-        del Q[-1]
+        
         for i in Q:
             string+=i
         q=string
@@ -136,18 +140,66 @@ def CalculateResult(Question,count,Visited):#Question是字符串,count循环该
     print(listnum)
     return listnum,count,Visited   
 
+def ReversePolish(i):
+    S=[]
+    L=[]
+    for elem in i:
+        if(elem=='0' or elem=='1' or elem=='2' or elem=='3' or elem=='4' or elem=='5' or elem=='6' or elem=='7' or elem=='8' or elem=='9'):
+            L.append(elem)
+        elif(elem=='('):
+            S.append('(')
+        elif(elem==')'):
+            t=0
+            while(t!='('):
+                t=S.pop()
+                if(t=='('):
+                    break
+                L.append(t)
+        else:
+            if S==[]:
+                S.append(elem)
+            elif S[-1]=='(':
+                S.append(elem)
+            elif(elem=='+'or elem=='-'):
+                while S and S[-1]!='(' and S[-1]!='*' and S[-1]!='/':
+                    t=S.pop()
+                    L.append(t)
+                S.append(elem)
+            elif(elem=='*'or elem=='/'):
+                while S and S[-1]!='(':
+                    t=S.pop()
+                    L.append(t)
+                S.append(elem)
+    while S!=[]:
+        elem=S.pop()
+        if(elem=='('):
+            pass
+        else:
+            L.append(elem)
+    string=''
+    for i in L:
+        string+=i+' '
+    return string
+                
+
 def CalculateResults(Questions):
     Results=[]  
     for i in Questions:
+        '''
         Visited=[]
         for elem in i:
             Visited.append(False)
-        result,c,v=CalculateResult(i,0,Visited)
+        result,c,v=CalculateResult(i,0,Visited)'
+        '''
+        result=ReversePolish(i)
         Results.append(result)
+        print(result)
     return Results
 
 if __name__=='__main__':
     Questions=CreateQuestions(10-1,10)
+    
+    Questions=['1-(9*(6*6))', '1-0-8+7', '(7+4)+7', '9+5)/(9/6', '(0+8)*7', '4-(5+2)', '1+(2/2*3)', '4/5-6-1', '2*(1*(0+6))', '1/4+0']
     print(Questions)
     Results=CalculateResults(Questions)
     print(Results)
