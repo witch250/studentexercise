@@ -19,7 +19,7 @@ def CreateQuestion(r):    #r是最大数字,暂不考虑分数和括号
     kuohao=0                    #括号个数
     flag=True                   #当前轮是否有'('生成
     for j in range(1,count+1):  #创建第一项到最后一项
-        if(j!=1 count!=2 and j!=count): #不在首项前，仅有两项时，以及最后一项生成左括号
+        if( count!=2 and j!=count): #不在首项前，仅有两项时，以及最后一项生成左括号
             if(createnumber(0,1)==1):   #50%
                 string+='('
                 kuohao+=1
@@ -46,19 +46,21 @@ def CreateQuestion(r):    #r是最大数字,暂不考虑分数和括号
 
 def CutKuoHao(q):   #删除首个括号，使它更加简洁
     if(q[0]=='('and q[-1]==')'):
-        Q=[]
-        string=''
         kuohao=0
-        for i in q:
+        for i in q[-2::-1]: #从倒数第二开始，倒着每次进1
             if i=='(':
-                kuohao+=1
+                return q
             if i==')':
-                kuohao-=1
-            Q.append(i)
-        
-        for i in Q:
-            string+=i
-        q=string
+                Q=[]
+                string=''
+                for j in q:
+                    Q.append(j)
+                del Q[0]
+                del Q[-1]
+                for i in Q:
+                    string+=i
+                q=string
+                break
     else:
         pass
     return q
@@ -67,78 +69,12 @@ def CreateQuestions(r,n):   #r是最大数字，n是算式数量
     Questions=[]
     for i in range(n):
         q=CreateQuestion(r)
+        #print(q)
         q=CutKuoHao(q)
+        #print(q)
         Questions.append(q)
     return Questions
-
-def CalculateResult(Question,count,Visited):#Question是字符串,count循环该函数，记录当前应该是字符串中第几个元素
-    listnum=[]
-    listsign=[]
-    for elem in Question:  #放数字，乘除号先算
-        if(Visited[count]==True):
-            pass
-        if(elem=='0' or elem=='1' or elem=='2' or elem=='3' or elem=='4' or elem=='5' or elem=='6' or elem=='7' or elem=='8' or elem=='9'):
-            listnum.append(elem)
-            Visited[count]=True
-            count+=1        #当前字符串的哪里
-            if listsign:
-                if(listsign[-1]=='*'):          #替换数字,去除已计算的符号
-                    num1=eval(listnum.pop())    #转数字
-                    num2=eval(listnum.pop())
-                    del listsign[-1]            
-                    num=num1*num2
-                    listnum.append(str(num))
-                elif(listsign[-1]=='/'):
-                    num1=eval(listnum.pop())
-                    num2=eval(listnum.pop())
-                    del listsign[-1]
-                    num=num2/num1
-                    listnum.append(str(num))
-        if(elem=='+'or elem=='-' or elem=='*'or elem=='/'):
-            listsign.append(elem)
-            Visited[count]=True
-            count+=1
-        if(elem=='('):
-            Visited[count]=True
-            count+=1
-            Q=[]
-            flag1=1  #右括号后还是右括号
-            for i in Question[count:]:
-                if(i==')'):
-                    flag1=2
-                if(flag1==2 and i!=')'):
-                    break
-                Q.append(i)
-            Q.pop()
-            result,count,Visited=CalculateResult(Q,count,Visited)
-            Visited[count]=True
-            #result=CalculateResult(Q,count)     #递归
-            if result!=[]:
-                result=result[0]
-                listnum.append(result)
-
-    flag=True
-    while(len(listnum)!=1): #加减法
-        if(flag==True):
-            flag=False
-            continue
-        if(listsign[0]=='+'):           #对前两个元素不断操作
-            listnum[0]=eval(listnum[0])
-            listnum[1]=eval(listnum[1])
-            listnum[0]+=listnum[1]
-            listnum[0]=str(listnum[0])
-            del listnum[1]
-            del listsign[0]
-        elif(listsign[0]=='-'):
-            listnum[0]=eval(listnum[0])
-            listnum[1]=eval(listnum[1])
-            listnum[0]-=listnum[1]
-            listnum[0]=str(listnum[0])
-            del listnum[1]
-            del listsign[0]
-    #listnum[0]=eval(listnum[0])  #1个数字 '6'
-    print(listnum)
-    return listnum,count,Visited   
+  
 
 def ReversePolish(i):
     S=[]
@@ -161,12 +97,12 @@ def ReversePolish(i):
             elif S[-1]=='(':
                 S.append(elem)
             elif(elem=='+'or elem=='-'):
-                while S and S[-1]!='(' and S[-1]!='*' and S[-1]!='/':
+                while S and S[-1]!='(' :
                     t=S.pop()
                     L.append(t)
                 S.append(elem)
             elif(elem=='*'or elem=='/'):
-                while S and S[-1]!='(':
+                while S and S[-1]!='(' and S[-1]!='+' and S[-1]!='-':
                     t=S.pop()
                     L.append(t)
                 S.append(elem)
@@ -185,21 +121,14 @@ def ReversePolish(i):
 def CalculateResults(Questions):
     Results=[]  
     for i in Questions:
-        '''
-        Visited=[]
-        for elem in i:
-            Visited.append(False)
-        result,c,v=CalculateResult(i,0,Visited)'
-        '''
         result=ReversePolish(i)
         Results.append(result)
-        print(result)
+        #print(result)
     return Results
 
 if __name__=='__main__':
     Questions=CreateQuestions(10-1,10)
     
-    Questions=['1-(9*(6*6))', '1-0-8+7', '(7+4)+7', '9+5)/(9/6', '(0+8)*7', '4-(5+2)', '1+(2/2*3)', '4/5-6-1', '2*(1*(0+6))', '1/4+0']
     print(Questions)
     Results=CalculateResults(Questions)
     print(Results)
