@@ -13,7 +13,7 @@ def createsign():
     return random.choice(sign)
 
 def CreateQuestion(r):    #r是最大数字,暂不考虑分数和括号
-    count=createnumber(3,4)     #算式中项的个数
+    count=createnumber(2,4)     #算式中项的个数
     string=''                   #将算式保存在字符串中
     sign='+'
     kuohao=0                    #括号个数
@@ -91,7 +91,7 @@ def ReversePolish(i):
                 if(t=='('):
                     break
                 L.append(t)
-        else:
+        else:       #处理+-*/
             if S==[]:
                 S.append(elem)
             elif S[-1]=='(':    
@@ -120,44 +120,42 @@ def ReversePolish(i):
 def GiveResult(Question):   #字符串Q
     S=[]
     for elem in Question:
-        if elem==' ':
+        if elem==' ':  
             pass
         else:
             if elem=='0' or elem=='1' or elem=='2' or elem=='3' or elem=='4' or elem=='5' or elem=='6' or elem=='7' or elem=='8' or elem=='9':
                 S.append(elem)
-            elif elem=='+' or elem=='-' or elem=='*' or elem=='/':
+            elif elem=='+' or elem=='-' or elem=='*' or elem=='/':  #遇到符号，弹出两个数字计算后，再压入栈
                 num1=S.pop()
                 num2=S.pop()
                 num1=eval(num1)
                 num2=eval(num2)
                 if elem=='+':
                     num=num1+num2
-                if elem=='-':
+                elif elem=='-':
                     num=num2-num1
-                if elem=='*':
+                elif elem=='*':
                     num=num1*num2
-                if elem=='/':
+                elif elem=='/':
                     num=num2/num1
                 S.append(str(num))
     return(S[0])
 
-               
-
 def CalculateResults(Questions):
     Results=[]  
     for i in Questions:
-        Question=ReversePolish(i)
+        Question=ReversePolish(i)       #给出逆波兰式
         #print(Question)
-        result=GiveResult(Question)
+        result=GiveResult(Question)     #计算逆波兰式的值
         Results.append(result)
         #print(result)
     return Results
 
 if __name__=='__main__':
-    Questions=CreateQuestions(10-1,10)
+    Questions=CreateQuestions(10-1,10)  #创建0~(10-1)范围内的10条式子
     
     print(Questions)
-    Results=CalculateResults(Questions)
+    Results=CalculateResults(Questions) #计算存储式子的列表
     print(Results)
         
 
