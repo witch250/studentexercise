@@ -19,7 +19,7 @@ def CreateQuestion(r):    #r是最大数字,暂不考虑分数和括号
     kuohao=0                    #括号个数
     flag=True                   #当前轮是否有'('生成
     for j in range(1,count+1):  #创建第一项到最后一项
-        if( count!=2 and j!=count): #不在首项前，仅有两项时，以及最后一项生成左括号
+        if( count!=2 and j!=count): #不在仅有两项时，以及最后一项生成左括号
             if(createnumber(0,1)==1):   #50%
                 string+='('
                 kuohao+=1
@@ -48,7 +48,7 @@ def CutKuoHao(q):   #删除首个括号，使它更加简洁
     if(q[0]=='('and q[-1]==')'):
         kuohao=0
         for i in q[-2::-1]: #从倒数第二开始，倒着每次进1
-            if i=='(':
+            if i=='(':  #说明如果我切了，末尾会剩下'('
                 return q
             if i==')':
                 Q=[]
@@ -77,14 +77,14 @@ def CreateQuestions(r,n):   #r是最大数字，n是算式数量
   
 
 def ReversePolish(i):
-    S=[]
-    L=[]
+    S=[]    #存放+-*/(
+    L=[]    #存放数字+-*/,并且是结果
     for elem in i:
         if(elem=='0' or elem=='1' or elem=='2' or elem=='3' or elem=='4' or elem=='5' or elem=='6' or elem=='7' or elem=='8' or elem=='9'):
             L.append(elem)
-        elif(elem=='('):
+        elif(elem=='('):    
             S.append('(')
-        elif(elem==')'):
+        elif(elem==')'):    #弹出所有，直到左括号为止，包括'('
             t=0
             while(t!='('):
                 t=S.pop()
@@ -94,25 +94,25 @@ def ReversePolish(i):
         else:
             if S==[]:
                 S.append(elem)
-            elif S[-1]=='(':
+            elif S[-1]=='(':    
                 S.append(elem)
             elif(elem=='+'or elem=='-'):
-                while S and S[-1]!='(' :
+                while S and S[-1]!='(' :    #此 + or - 必须在下面
                     t=S.pop()
                     L.append(t)
                 S.append(elem)
-            elif(elem=='*'or elem=='/'):
+            elif(elem=='*'or elem=='/'):    # * or / 可以在 + or - 上面
                 while S and S[-1]!='(' and S[-1]!='+' and S[-1]!='-':
                     t=S.pop()
                     L.append(t)
                 S.append(elem)
-    while S!=[]:
+    while S!=[]:    #弹出剩余
         elem=S.pop()
         if(elem=='('):
             pass
         else:
             L.append(elem)
-    string=''
+    string=''   #转成字符串
     for i in L:
         string+=i+' '
     return string
