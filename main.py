@@ -116,12 +116,39 @@ def ReversePolish(i):
     for i in L:
         string+=i+' '
     return string
-                
+
+def GiveResult(Question):   #字符串Q
+    S=[]
+    for elem in Question:
+        if elem==' ':
+            pass
+        else:
+            if elem=='0' or elem=='1' or elem=='2' or elem=='3' or elem=='4' or elem=='5' or elem=='6' or elem=='7' or elem=='8' or elem=='9':
+                S.append(elem)
+            elif elem=='+' or elem=='-' or elem=='*' or elem=='/':
+                num1=S.pop()
+                num2=S.pop()
+                num1=eval(num1)
+                num2=eval(num2)
+                if elem=='+':
+                    num=num1+num2
+                if elem=='-':
+                    num=num2-num1
+                if elem=='*':
+                    num=num1*num2
+                if elem=='/':
+                    num=num2/num1
+                S.append(str(num))
+    return(S[0])
+
+               
 
 def CalculateResults(Questions):
     Results=[]  
     for i in Questions:
-        result=ReversePolish(i)
+        Question=ReversePolish(i)
+        #print(Question)
+        result=GiveResult(Question)
         Results.append(result)
         #print(result)
     return Results
