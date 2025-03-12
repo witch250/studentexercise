@@ -67,12 +67,15 @@ def CreateQuestions(r,n):   #r是最大数字，n是算式数量
         Questions.append(q)
     return Questions
 
-def CalculateResult(Question,count):#Question是字符串,count循环该函数，记录当前应该是字符串中第几个元素
+def CalculateResult(Question,count,Visited):#Question是字符串,count循环该函数，记录当前应该是字符串中第几个元素
     listnum=[]
     listsign=[]
     for elem in Question:  #放数字，乘除号先算
+        if(Visited[count]==True):
+            pass
         if(elem=='0' or elem=='1' or elem=='2' or elem=='3' or elem=='4' or elem=='5' or elem=='6' or elem=='7' or elem=='8' or elem=='9'):
             listnum.append(elem)
+            Visited[count]=True
             count+=1        #当前字符串的哪里
             if listsign:
                 if(listsign[-1]=='*'):          #替换数字,去除已计算的符号
@@ -89,17 +92,26 @@ def CalculateResult(Question,count):#Question是字符串,count循环该函数�
                     listnum.append(str(num))
         if(elem=='+'or elem=='-' or elem=='*'or elem=='/'):
             listsign.append(elem)
+            Visited[count]=True
             count+=1
         if(elem=='('):
+            Visited[count]=True
             count+=1
             Q=[]
+            flag1=1  #右括号后还是右括号
             for i in Question[count:]:
-                Q.append(i)
-                if(elem==')'):
-                    count+=1
+                if(i==')'):
+                    flag1=2
+                if(flag1==2 and i!=')'):
                     break
-            result=CalculateResult(Q,count)     #递归
-            listnum.append(result)
+                Q.append(i)
+            Q.pop()
+            result,count,Visited=CalculateResult(Q,count,Visited)
+            Visited[count]=True
+            #result=CalculateResult(Q,count)     #递归
+            if result!=[]:
+                result=result[0]
+                listnum.append(result)
 
     flag=True
     while(len(listnum)!=1): #加减法
@@ -122,19 +134,22 @@ def CalculateResult(Question,count):#Question是字符串,count循环该函数�
             del listsign[0]
     #listnum[0]=eval(listnum[0])  #1个数字 '6'
     print(listnum)
-    return listnum   
+    return listnum,count,Visited   
 
 def CalculateResults(Questions):
-    Results=[]
+    Results=[]  
     for i in Questions:
-        result=CalculateResult(i,0)
+        Visited=[]
+        for elem in i:
+            Visited.append(False)
+        result,c,v=CalculateResult(i,0,Visited)
         Results.append(result)
     return Results
 
 if __name__=='__main__':
     Questions=CreateQuestions(10-1,10)
     print(Questions)
-    #Results=CalculateResults(Questions)
-    #print(Results)
+    Results=CalculateResults(Questions)
+    print(Results)
         
 
