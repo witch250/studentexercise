@@ -12,11 +12,18 @@ def createsign():
     sign=['+','-','*','/']
     return random.choice(sign)
 
+def GreatestCommonDivisor(num1,num2): #最大公约数
+    while num2!=0:
+        r=num1%num2
+        num1=num2
+        num2=r
+    return num1
+
 def createFenShu(a,b):
     string=''
     numUP=1
     numDOWN=1
-    while numUP>=numDOWN:
+    while numUP>=numDOWN or GreatestCommonDivisor(numDOWN,numUP)!=1:
         numUP=createnumber(1,b)
         numDOWN=createnumber(2,b)
     numADD=createnumber(1,b)
