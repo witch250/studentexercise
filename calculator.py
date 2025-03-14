@@ -1,5 +1,6 @@
 import random
 from fractioncalculation import *
+import othermath
 
 def createnumber(a,b):
     return random.randint(a,b)  #包括a,b
@@ -7,13 +8,6 @@ def createnumber(a,b):
 def createsign():
     sign=['+','-','*','/']
     return random.choice(sign)
-
-def GreatestCommonDivisor(num1,num2): #最大公约数
-    while num2!=0:
-        r=num1%num2
-        num1=num2
-        num2=r
-    return num1
 
 def createFenShu(a,b):
     string=''

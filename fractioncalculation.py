@@ -1,5 +1,6 @@
-from calculator import *
 import math
+import othermath
+
 def TurnListToNumber(L):
     num=0
     n=1
