@@ -1,4 +1,13 @@
 from main import *
+import math
+def TurnListToNumber(L):
+    num=0
+    n=1
+    while L:
+        num+=eval(L.pop())*n
+        n=n*10
+    return num
+
 def FractionAdd(num1,num2): #传进来的分数最简
     if num1.isdecimal():    #num2一定是分数
         pass
@@ -24,9 +33,7 @@ def FractionAdd(num1,num2): #传进来的分数最简
                 continue
             S.append(L[i])
             del L[i]
-        while S:
-            num+=eval(S.pop())*n
-            n=n*10
+        num=TurnListToNumber(S)
         num+=eval(num1)         #相加
         L.insert(1,str(num))
         string=''               #转回字符串
@@ -49,7 +56,7 @@ def FractionAdd(num1,num2): #传进来的分数最简
                 if(L1[i]=='+'):
                     flag=2
                 elif(L1[i]=='/'):
-                    flag==3
+                    flag=3
                 i+=1
                 continue
             if(flag==1):
@@ -69,7 +76,7 @@ def FractionAdd(num1,num2): #传进来的分数最简
                 if(L2[i]=='+'):
                     flag=2
                 elif(L2[i]=='/'):
-                    flag==3
+                    flag=3
                 i+=1
                 continue
             if(flag==1):
@@ -79,4 +86,28 @@ def FractionAdd(num1,num2): #传进来的分数最简
             elif(flag==3):
                 down2.append(L2[i])
             del L2[i]
+        ADD1=TurnListToNumber(add1)
+        UP1=TurnListToNumber(up1)
+        DOWN1=TurnListToNumber(down1)
+        ADD2=TurnListToNumber(add2)
+        UP2=TurnListToNumber(up2)
+        DOWN2=TurnListToNumber(down2)
+        DOWN=math.lcm(DOWN1,DOWN2)
+        UP1=int(UP1*(DOWN/DOWN1))
+        UP2=int(UP2*(DOWN/DOWN2))
+        UP=UP1+UP2
+        withadd=0
+        while UP>DOWN:
+            UP-=DOWN
+            withadd+=1
+        ADD=ADD1+ADD2+withadd
+        if(UP==DOWN):
+            return str(ADD+1)
+        else:
+            L1.insert(3,str(DOWN))
+            L1.insert(2,str(UP))
+            L1.insert(1,str(ADD))
+            string=''
+            for elem in L1:
+                string+=elem
     return string
