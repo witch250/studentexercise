@@ -40,6 +40,58 @@ def CutA(Question):     #展示完了就删除A
         string+=i
     return string
 
+def SimpleFraction(num1,num2):
+    num1=num1//GreatestCommonDivisor(num1,num2)
+    num2=num2//GreatestCommonDivisor(num1,num2)
+    return num1,num2
+
+def FractionAdd(num1,num2):
+    if num1.isdecimal():
+        pass
+    elif num2.isdecimal():
+        t=num2
+        num2=num1
+        num1=t
+    if num1=='0':
+        return num2
+    if(num2[0]=='B' and num1.isdecimal()):   #真分数
+        L=[]
+        for elem in num2:
+            L.append(elem)
+        string=num1+'+'
+        for elem in L:
+            if(elem=='B'):
+                elem='C'
+            string+=elem
+    elif(num2[0]=='C' and num1.isdecimal()):    #带分数
+        L=[]
+        S=[]
+        num=0
+        n=1
+        for elem in num2:       #字符串转列表提取数字
+            L.append(elem)
+        i=0
+        while True:             
+            if(L[i]=='+'):
+                break
+            if(L[i]=='C'):
+                i+=1
+                continue
+            S.append(L[i])
+            del L[i]
+        while S:
+            num+=eval(S.pop())*n
+            n=n*10
+        num+=eval(num1)         #相加
+        L.insert(1,str(num))
+        string=''               #转回字符串
+        for i in L:
+            string+=i
+    else:               #都是分数   
+        pass
+    return string
+
+
 def CreateQuestion(r):    #r是最大数字,暂不考虑分数和括号
     count=createnumber(2,4)     #算式中项的个数
     string=''                   #将算式保存在字符串中
@@ -186,17 +238,41 @@ def GiveResult(Question):   #字符串Q
             elif elem=='+' or elem=='-' or elem=='*' or elem=='/':  #遇到符号，弹出两个数字计算后，再压入栈
                 num1=S.pop()
                 num2=S.pop()
-                num1=eval(num1)
-                num2=eval(num2)
-                if elem=='+':
-                    num=num1+num2
-                elif elem=='-':
-                    num=num2-num1
-                elif elem=='*':
-                    num=num1*num2
-                elif elem=='/':
-                    num=num2/num1
-                S.append(str(num))
+                if num1.isdecimal() and num2.isdecimal():   #都只含数字
+                    #仅对整数有效
+                    num1=eval(num1)
+                    num2=eval(num2)
+                    if elem=='+':
+                        num=num1+num2
+                    elif elem=='-':
+                        num=num2-num1
+                    elif elem=='*':
+                        num=num1*num2
+                    elif elem=='/':             #这一步可能产生分数
+                        if GreatestCommonDivisor(num1,num2)==num1:  #默认2>1
+                            num=num2/num1
+                            num=int(num) 
+                        else:                   #无所谓
+                            num=''
+                            num3=0
+                            num1,num2=SimpleFraction(num1,num2)
+                            while num1>num2:
+                                num1=num1-num2
+                                num3+=1
+                            if num3==0:
+                                num+='B'+str(num2)+'/'+(str(num1))  
+                            else:
+                                num+='C'+str(num3)+'+'+str(num2)+'/'+(str(num1))
+                else:   #整数分数 分数分数
+                    if elem=='+':
+                        num=FractionAdd(num1,num2)
+                    elif elem=='-':
+                        pass
+                    elif elem=='*':
+                        pass
+                    elif elem=='/':             
+                        pass
+                S.append(str(num))  
     return(S[0])
 
 def CalculateResults(Questions):
@@ -210,10 +286,10 @@ def CalculateResults(Questions):
     return Results
 
 if __name__=='__main__':
-    Questions=CreateQuestions(10-1,5)  #创建0~(10-1)范围内的5条式子
-    
+    #Questions=CreateQuestions(10-1,5)  #创建0~(10-1)范围内的5条式子
+    Questions=['9*9/7']
     print(Questions)
-    #Results=CalculateResults(Questions) #计算存储式子的列表
-    #print(Results)
+    Results=CalculateResults(Questions) #计算存储式子的列表
+    print(Results)
         
 
