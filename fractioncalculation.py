@@ -1,4 +1,4 @@
-from main import *
+from calculator import *
 import math
 def TurnListToNumber(L):
     num=0
@@ -7,6 +7,35 @@ def TurnListToNumber(L):
         num+=eval(L.pop())*n
         n=n*10
     return num
+
+def SimpleFraction(num1,num2):
+    r=GreatestCommonDivisor(num1,num2)
+    num1=num1//r
+    num2=num2//r
+    return num1,num2
+
+def DivideFraction(L):  #like['C','1','+','5','/','8']
+    i=0
+    flag=1
+    add=[]
+    up=[]
+    down=[]
+    while i<len(L):
+        if(L[i]=='C' or L[i]=='+' or L[i]=='/'):
+            if(L[i]=='+'):
+                flag=2
+            elif(L[i]=='/'):
+                flag=3
+            i+=1
+            continue
+        if(flag==1):
+            add.append(L[i])
+        elif(flag==2):
+            up.append(L[i])
+        elif(flag==3):
+            down.append(L[i])
+        del L[i]
+    return L,add,up,down
 
 def FractionAdd(num1,num2): #传进来的分数最简
     if num1.isdecimal():    #num2一定是分数
@@ -21,7 +50,6 @@ def FractionAdd(num1,num2): #传进来的分数最简
         L=[]
         S=[]
         num=0   #整数部分结果
-        n=1     #个十百千
         for elem in num2:       #字符串转列表提取数字
             L.append(elem)
         i=0
@@ -45,47 +73,9 @@ def FractionAdd(num1,num2): #传进来的分数最简
         for elem in num1:
             L1.append(elem)
         for elem in num2:
-            L2.append(elem)
-        i=0
-        flag=1
-        add1=[]
-        up1=[]
-        down1=[]
-        while i<len(L1):            #将列表元素分离为数字，带的整数，分子，分母
-            if(L1[i]=='C' or L1[i]=='+' or L1[i]=='/'):
-                if(L1[i]=='+'):
-                    flag=2
-                elif(L1[i]=='/'):
-                    flag=3
-                i+=1
-                continue
-            if(flag==1):
-                add1.append(L1[i])
-            elif(flag==2):
-                up1.append(L1[i])
-            elif(flag==3):
-                down1.append(L1[i])
-            del L1[i]
-        i=0
-        flag=1
-        add2=[]
-        up2=[]
-        down2=[]
-        while i<len(L2):
-            if(L2[i]=='C' or L2[i]=='+' or L2[i]=='/'):
-                if(L2[i]=='+'):
-                    flag=2
-                elif(L2[i]=='/'):
-                    flag=3
-                i+=1
-                continue
-            if(flag==1):
-                add2.append(L2[i])
-            elif(flag==2):
-                up2.append(L2[i])
-            elif(flag==3):
-                down2.append(L2[i])
-            del L2[i]
+            L2.append(elem)      
+        L1,add1,up1,down1=DivideFraction(L1)    #将列表元素分离为数字，带的整数，分子，分母
+        L2,add2,up2,down2=DivideFraction(L2)
         ADD1=TurnListToNumber(add1)
         UP1=TurnListToNumber(up1)
         DOWN1=TurnListToNumber(down1)
@@ -104,6 +94,7 @@ def FractionAdd(num1,num2): #传进来的分数最简
         if(UP==DOWN):                   #如果1'2/2
             return str(ADD+1)
         else:                           #L1=C+/，所以往里插入
+            UP,DOWN=SimpleFraction(UP,DOWN)     #化简分数
             L1.insert(3,str(DOWN))
             L1.insert(2,str(UP))
             L1.insert(1,str(ADD))
@@ -111,3 +102,79 @@ def FractionAdd(num1,num2): #传进来的分数最简
             for elem in L1:
                 string+=elem
     return string
+
+def FractionSub(num1,num2): #传进来的分数最简,整数-分数，分数-分数，分数-整数
+    if(num1.isdecimal()):       #整数减分数
+        L2=[]
+        for elem in num2:       #字符串转列表提取数字
+            L2.append(elem)
+        L2,add2,up2,down2=DivideFraction(L2)
+        ADD2=TurnListToNumber(add2)
+        UP2=TurnListToNumber(up2)
+        DOWN2=TurnListToNumber(down2)
+        UP=DOWN2-UP2
+        DOWN=DOWN2
+        ADD=eval(num1)-ADD2-1
+        L2.insert(3,str(DOWN))
+        L2.insert(2,str(UP))
+        L2.insert(1,str(ADD))
+        string=''
+        for elem in L2:
+            string+=elem
+        return string
+    elif(num2.isdecimal()):     #分数-整数----------
+        L=[]
+        S=[]
+        num=0   #整数部分结果
+        for elem in num1:       #字符串转列表提取数字
+            L.append(elem)
+        i=0
+        while True:             
+            if(L[i]=='+'):
+                break
+            if(L[i]=='C'):
+                i+=1
+                continue
+            S.append(L[i])
+            del L[i]
+        num=TurnListToNumber(S)
+        num-=eval(num2)         #相减
+        L.insert(1,str(num))
+        string=''               #转回字符串
+        for i in L:
+            string+=i
+        return string
+    else:                   #都是分数-----------------
+        L1=[]
+        L2=[]
+        for elem in num1:
+            L1.append(elem)
+        for elem in num2:
+            L2.append(elem)      
+        L1,add1,up1,down1=DivideFraction(L1)    #将列表元素分离为数字，带的整数，分子，分母
+        L2,add2,up2,down2=DivideFraction(L2)
+        ADD1=TurnListToNumber(add1)
+        UP1=TurnListToNumber(up1)
+        DOWN1=TurnListToNumber(down1)
+        ADD2=TurnListToNumber(add2)
+        UP2=TurnListToNumber(up2)
+        DOWN2=TurnListToNumber(down2)
+        DOWN=math.lcm(DOWN1,DOWN2)      #最小公倍数
+        UP1=int(UP1*(DOWN/DOWN1))       #分子放大
+        UP2=int(UP2*(DOWN/DOWN2))
+        UP=((UP1+DOWN)-UP2)%DOWN
+        withadd=0
+        if (UP1/DOWN1)-(UP1/DOWN1)<0:
+            withadd=-1
+        ADD=ADD1-ADD2+withadd
+        if(UP==0):                   
+            return str(ADD)
+        else:                           #L1=C+/，所以往里插入
+            UP,DOWN=SimpleFraction(UP,DOWN)     #化简分数
+            L1.insert(3,str(DOWN))
+            L1.insert(2,str(UP))
+            L1.insert(1,str(ADD))
+            string=''
+            for elem in L1:
+                string+=elem
+        return string

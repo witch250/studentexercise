@@ -1,6 +1,8 @@
 from main import *
 from fractioncalculation import *
-num1='C0+1/2'
-num2='C28+1/2' 
-string=FractionAdd(num1,num2)
+from readandwrite import *
+from calculator import *
+num1='C1+1/10'
+num2='C0+9/10' 
+string=FractionSub(num1,num2)
 print(string)
