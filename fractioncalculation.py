@@ -1,5 +1,5 @@
 import math
-import othermath
+from othermath import GreatestCommonDivisor
 
 def TurnListToNumber(L):
     num=0

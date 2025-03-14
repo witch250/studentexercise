@@ -1,6 +1,6 @@
 import random
 from fractioncalculation import *
-import othermath
+from othermath import GreatestCommonDivisor
 
 def createnumber(a,b):
     return random.randint(a,b)  #包括a,b
