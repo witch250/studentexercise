@@ -1,6 +1,6 @@
 import math
 from othermath import GreatestCommonDivisor
-
+#别问我为什么这么多行，有些是大概相通的
 def TurnListToNumber(L):
     num=0
     n=1
@@ -179,3 +179,74 @@ def FractionSub(num1,num2): #传进来的分数最简,整数-分数，分数-分
             for elem in L1:
                 string+=elem
         return string
+
+def FractionMul(num1,num2):
+    if num1.isdecimal():    #num2一定是分数
+        pass
+    elif num2.isdecimal():
+        t=num2
+        num2=num1
+        num1=t
+    if(num1=='0'):
+        return num1
+    if num1.isdecimal():        #一个整数，一个分数
+        L2=[]
+        for elem in num2:       #字符串转列表提取数字
+            L2.append(elem)
+        L2,add2,up2,down2=DivideFraction(L2)
+        ADD2=TurnListToNumber(add2)
+        UP2=TurnListToNumber(up2)
+        DOWN2=TurnListToNumber(down2)
+        UP=UP2*eval(num1)
+        DOWN=DOWN2
+        withadd=0                       #分子大过分母则变为整数
+        while UP>DOWN:
+            UP-=DOWN
+            withadd+=1
+        ADD=ADD2*eval(num1)+withadd
+        UP,DOWN=SimpleFraction(UP,DOWN)     #化简分数
+        L2.insert(3,str(DOWN))
+        L2.insert(2,str(UP))
+        L2.insert(1,str(ADD))
+        string=''
+        for elem in L2:
+            string+=elem
+        return string
+    else:                   #都是分数
+        L1=[]
+        L2=[]
+        for elem in num1:
+            L1.append(elem)
+        for elem in num2:
+            L2.append(elem)      
+        L1,add1,up1,down1=DivideFraction(L1)    #将列表元素分离为数字，带的整数，分子，分母
+        L2,add2,up2,down2=DivideFraction(L2)
+        ADD1=TurnListToNumber(add1)
+        UP1=TurnListToNumber(up1)
+        DOWN1=TurnListToNumber(down1)
+        ADD2=TurnListToNumber(add2)
+        UP2=TurnListToNumber(up2)
+        DOWN2=TurnListToNumber(down2)
+        UP1+=ADD1*DOWN1
+        UP2+=ADD2*DOWN2
+        UP=UP1*UP2
+        DOWN=DOWN1*DOWN2
+        withadd=0                       #分子大过分母则变为整数
+        while UP>DOWN:
+            UP-=DOWN
+            withadd+=1
+        ADD=withadd
+        if(UP==DOWN):
+            return str(ADD+1)
+        UP,DOWN=SimpleFraction(UP,DOWN)     #化简分数
+        L2.insert(3,str(DOWN))
+        L2.insert(2,str(UP))
+        L2.insert(1,str(ADD))
+        string=''
+        for elem in L2:
+            string+=elem
+        return string
+
+
+def FractionDiv(num1,num2):
+    pass
