@@ -17,7 +17,7 @@ def FractionAdd(num1,num2): #传进来的分数最简
         num1=t
     if num1=='0':
         return num2
-    if(num1.isdecimal()):    #整数+分数
+    if(num1.isdecimal()):    #整数+分数----------------------------
         L=[]
         S=[]
         num=0   #整数部分结果
@@ -39,7 +39,7 @@ def FractionAdd(num1,num2): #传进来的分数最简
         string=''               #转回字符串
         for i in L:
             string+=i
-    else:               #都是分数   
+    else:               #都是分数----------------------------------- 
         L1=[]
         L2=[]
         for elem in num1:
@@ -51,7 +51,7 @@ def FractionAdd(num1,num2): #传进来的分数最简
         add1=[]
         up1=[]
         down1=[]
-        while i<len(L1):
+        while i<len(L1):            #将列表元素分离为数字，带的整数，分子，分母
             if(L1[i]=='C' or L1[i]=='+' or L1[i]=='/'):
                 if(L1[i]=='+'):
                     flag=2
@@ -92,18 +92,18 @@ def FractionAdd(num1,num2): #传进来的分数最简
         ADD2=TurnListToNumber(add2)
         UP2=TurnListToNumber(up2)
         DOWN2=TurnListToNumber(down2)
-        DOWN=math.lcm(DOWN1,DOWN2)
-        UP1=int(UP1*(DOWN/DOWN1))
+        DOWN=math.lcm(DOWN1,DOWN2)      #最小公倍数
+        UP1=int(UP1*(DOWN/DOWN1))       #分子放大
         UP2=int(UP2*(DOWN/DOWN2))
         UP=UP1+UP2
-        withadd=0
+        withadd=0                       #分子大过分母则变为整数
         while UP>DOWN:
             UP-=DOWN
             withadd+=1
         ADD=ADD1+ADD2+withadd
-        if(UP==DOWN):
+        if(UP==DOWN):                   #如果1'2/2
             return str(ADD+1)
-        else:
+        else:                           #L1=C+/，所以往里插入
             L1.insert(3,str(DOWN))
             L1.insert(2,str(UP))
             L1.insert(1,str(ADD))
