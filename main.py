@@ -54,16 +54,7 @@ def FractionAdd(num1,num2):
         num1=t
     if num1=='0':
         return num2
-    if(num2[0]=='B' and num1.isdecimal()):   #真分数
-        L=[]
-        for elem in num2:
-            L.append(elem)
-        string=num1+'+'
-        for elem in L:
-            if(elem=='B'):
-                elem='C'
-            string+=elem
-    elif(num2[0]=='C' and num1.isdecimal()):    #带分数
+    if(num1.isdecimal()):    #整数+分数
         L=[]
         S=[]
         num=0
@@ -256,13 +247,10 @@ def GiveResult(Question):   #字符串Q
                             num=''
                             num3=0
                             num1,num2=SimpleFraction(num1,num2)
-                            while num1>num2:
-                                num1=num1-num2
+                            while num2>num1:
+                                num2=num2-num1
                                 num3+=1
-                            if num3==0:
-                                num+='B'+str(num2)+'/'+(str(num1))  
-                            else:
-                                num+='C'+str(num3)+'+'+str(num2)+'/'+(str(num1))
+                            num+='C'+str(num3)+'+'+str(num2)+'/'+(str(num1)) #0'2/3是允许的
                 else:   #整数分数 分数分数
                     if elem=='+':
                         num=FractionAdd(num1,num2)
