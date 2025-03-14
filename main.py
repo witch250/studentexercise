@@ -1,4 +1,5 @@
 import random
+from fractioncalculation import *
 def WriteQuestion():
     pass
 
@@ -44,44 +45,6 @@ def SimpleFraction(num1,num2):
     num1=num1//GreatestCommonDivisor(num1,num2)
     num2=num2//GreatestCommonDivisor(num1,num2)
     return num1,num2
-
-def FractionAdd(num1,num2):
-    if num1.isdecimal():
-        pass
-    elif num2.isdecimal():
-        t=num2
-        num2=num1
-        num1=t
-    if num1=='0':
-        return num2
-    if(num1.isdecimal()):    #整数+分数
-        L=[]
-        S=[]
-        num=0
-        n=1
-        for elem in num2:       #字符串转列表提取数字
-            L.append(elem)
-        i=0
-        while True:             
-            if(L[i]=='+'):
-                break
-            if(L[i]=='C'):
-                i+=1
-                continue
-            S.append(L[i])
-            del L[i]
-        while S:
-            num+=eval(S.pop())*n
-            n=n*10
-        num+=eval(num1)         #相加
-        L.insert(1,str(num))
-        string=''               #转回字符串
-        for i in L:
-            string+=i
-    else:               #都是分数   
-        pass
-    return string
-
 
 def CreateQuestion(r):    #r是最大数字,暂不考虑分数和括号
     count=createnumber(2,4)     #算式中项的个数
