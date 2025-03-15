@@ -1,13 +1,19 @@
 from main import *
 from fractioncalculation import *
-from readandwrite import *
+from write import *
 from calculator import *
+from check import *
 import os
-os.chdir(os.path.dirname(os.path.abspath(__file__)))
-num1='C0+1/5'
-num2='C0+1/10' 
-string=FractionDiv(num1,num2)
-print(string)
+def testreadquestion():
+    Questions=ReadQuestions("Exercises.txt")
+    print(Questions)
+def testreadanswer():
+    Answers=ReadAnswers("Answers.txt")
+    print(Answers)
+def testcheck():
+    YourAnswers=ReadAnswers("YourAnswers.txt")
+    Answers=ReadAnswers("Answers.txt")
+    WriteCheck("Grade.txt",Answers,YourAnswers)
 
 def testmain():
     N=10000
@@ -37,3 +43,9 @@ def testmain():
         Results.append(result)
     print(Questions)
     print(Results)
+
+if __name__=='__main__':
+    os.chdir(os.path.dirname(os.path.abspath(__file__)))
+    #testreadquestion()
+    #testreadanswer()
+    testcheck()

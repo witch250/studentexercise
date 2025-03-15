@@ -30,7 +30,7 @@ def CutA(Question):     #展示完了就删除A
         string+=i
     return string
 
-def CreateQuestion(r):    #r是最大数字,暂不考虑分数和括号
+def CreateQuestion(r):    #r是最大数字
     count=createnumber(2,4)     #算式中项的个数
     string=''                   #将算式保存在字符串中
     sign='+'
@@ -42,13 +42,16 @@ def CreateQuestion(r):    #r是最大数字,暂不考虑分数和括号
                 string+='('
                 kuohao+=1
                 flag=True
-        if createnumber(0,3)!=0:        #生成整数或者分数
+        if r>1 and createnumber(0,3)==0:        #生成整数或者分数
+            num=createFenShu(0,r)
+        else:
             num=createnumber(0,r)
             if sign and sign=='/' and num==0:   #不要1/0
-                num=createnumber(1,r)
+                if(r==1):
+                    num=1
+                else:
+                    num=createnumber(1,r)
             num=str(num)
-        else:
-            num=createFenShu(0,r)
         string+=num
         if(kuohao!=0 and flag==False): #不要在生成'('的时候也生成')',否则(6)
             if(createnumber(0,1)==1):
@@ -100,6 +103,8 @@ def ReversePolish(i):
     S=[]    #存放+-*/(
     L=[]    #存放数字+-*/,并且是结果
     for elem in i:
+        if(elem==' '):
+            pass
         if(elem=='0' or elem=='1' or elem=='2' or elem=='3' or elem=='4' or elem=='5' or elem=='6' or elem=='7' or elem=='8' or elem=='9'):
             L.append(elem)
         elif(elem=='('):    

@@ -1,11 +1,11 @@
-from readandwrite import *
+from write import *
 from calculator import *
 import os
 if __name__=='__main__':
     try:
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
-        N=1000
-        r=10
+        N=10
+        r=10             #r以内，不包括r
         Questions=[]
         Results=[]
         i=1
