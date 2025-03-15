@@ -1,9 +1,10 @@
 from readandwrite import *
 from calculator import *
-
+import os
 if __name__=='__main__':
     try:
-        N=10000
+        os.chdir(os.path.dirname(os.path.abspath(__file__)))
+        N=1000
         r=10
         Questions=[]
         Results=[]
@@ -23,15 +24,10 @@ if __name__=='__main__':
             Results.append(result)
             if(i==N+1):
                 break
-        print(Questions)
-        print(Results)
-        '''
-        n=0
-        for j in Questions:
-            n+=1
-            print("%d  %s"%(n,j))
-        '''
+        #print(Questions)
+        #print(Results)
         WriteQuestions(Questions)
+        WriteResults(Results)
     except PermissionError as e:
         print(e)
     except MemoryError as e:

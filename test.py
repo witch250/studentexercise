@@ -2,6 +2,8 @@ from main import *
 from fractioncalculation import *
 from readandwrite import *
 from calculator import *
+import os
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 num1='C0+1/5'
 num2='C0+1/10' 
 string=FractionDiv(num1,num2)
