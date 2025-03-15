@@ -247,6 +247,43 @@ def FractionMul(num1,num2):
             string+=elem
         return string
 
-
 def FractionDiv(num1,num2):
-    pass
+    if(num1=='0'):
+        return '0'
+    if num1.isdecimal():
+        num1='C'+num1+'+0/1'
+    if num2.isdecimal():
+        num2='C'+num2+'+0/1'
+    L1=[]
+    L2=[]
+    for elem in num1:
+        L1.append(elem)
+    for elem in num2:
+        L2.append(elem)      
+    L1,add1,up1,down1=DivideFraction(L1)    #将列表元素分离为数字，带的整数，分子，分母
+    L2,add2,up2,down2=DivideFraction(L2)
+    ADD1=TurnListToNumber(add1)
+    UP1=TurnListToNumber(up1)
+    DOWN1=TurnListToNumber(down1)
+    ADD2=TurnListToNumber(add2)
+    UP2=TurnListToNumber(up2)
+    DOWN2=TurnListToNumber(down2)
+    UP1+=ADD1*DOWN1
+    UP2+=ADD2*DOWN2
+    DOWN=DOWN1*UP2
+    UP=UP1*DOWN2
+    withadd=0                       #分子大过分母则变为整数
+    while UP>DOWN:
+        UP-=DOWN
+        withadd+=1
+    ADD=withadd
+    if(UP==DOWN):
+        return str(ADD+1)
+    UP,DOWN=SimpleFraction(UP,DOWN)     #化简分数
+    L2.insert(3,str(DOWN))
+    L2.insert(2,str(UP))
+    L2.insert(1,str(ADD))
+    string=''
+    for elem in L2:
+        string+=elem
+    return string

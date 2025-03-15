@@ -204,9 +204,9 @@ def GiveResult(Question):   #字符串Q
                     elif elem=='-':
                         num=FractionSub(num2,num1)
                     elif elem=='*':
-                        pass
+                        num=FractionMul(num2,num1)
                     elif elem=='/':             
-                        pass
+                        num=FractionDiv(num2/num1)
                 S.append(str(num))  
     return(S[0])
 
