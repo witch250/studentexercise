@@ -42,7 +42,7 @@ def CreateQuestion(r):    #r是最大数字,暂不考虑分数和括号
                 string+='('
                 kuohao+=1
                 flag=True
-        if createnumber(0,3)!=0:
+        if createnumber(0,3)!=0:        #生成整数或者分数
             num=createnumber(0,r)
             if sign and sign=='/' and num==0:   #不要1/0
                 num=createnumber(1,r)
