@@ -1,8 +1,10 @@
 from write import *
 from calculator import *
+from check import *
 import sys
 import os
 #py main.py -n 12 -r 10
+#py main.py -e Exercises.txt -a YourAnswers.txt
 if __name__=='__main__':
     try:
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -22,11 +24,23 @@ if __name__=='__main__':
                 elif put[1]=='-e' and put[3]=='-a':
                     exercisespath=put[2]
                     youranswerspath=put[4]
+                    Questions=ReadQuestions(exercisespath)
+                    Answers=[]
+                    for elem in Questions:
+                        Question=ReversePolish(elem)       #给出逆波兰式
+                        result=GiveResult(Question) 
+                        Answers.append(result)
+                    YourAnswers=ReadAnswers(youranswerspath)
+                    #Answers=ReadAnswers("Answers.txt")
+                    WriteCheck("Grade.txt",Answers,YourAnswers)
+                    print("执行完毕")
+                    os.system('pause')
+                    sys.exit()
                 else:
-                    print("输入有误")
+                    pass
             except IndexError:
                 raise IndexError("输入过少") 
-        if len(put)==1: #脚本内参数
+        elif len(put)==1: #脚本内参数
             N=10
             r=10             #r以内，不包括r
             exercisespath="Exercises.txt"
@@ -49,8 +63,6 @@ if __name__=='__main__':
             Results.append(result)
             if(i==N+1):
                 break
-        #print(Questions)
-        #print(Results)
         WriteQuestions(Questions)
         WriteResults(Results)
     except PermissionError as e:
@@ -61,4 +73,6 @@ if __name__=='__main__':
         print(e)
     except IndexError as e:
         print(e)
+    except NameError:
+        print("输入有误")
     os.system('pause')
