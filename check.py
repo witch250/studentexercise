@@ -39,6 +39,8 @@ def ReadQuestions(txtpath): #返回一个列表元素能用逆波兰式处理的
         raise PermissionError("不允许访问文件")
     except OSError:
         raise OSError("请检查斜杠")
+    except UnicodeDecodeError:
+        raise UnicodeDecodeError("文件类型错误")
 
 def ReadAnswers(txtpath):
     try:
@@ -67,6 +69,8 @@ def ReadAnswers(txtpath):
         raise PermissionError("不允许访问文件")
     except OSError:
         raise OSError("请检查斜杠")
+    except UnicodeDecodeError:
+        raise UnicodeDecodeError("文件类型错误")
     
 def Check(Results,Answers):
     num=0
@@ -76,13 +80,18 @@ def Check(Results,Answers):
         num=len(Results)
     Correct=[]
     Wrong=[]
-    i=1
-    for i in range(0,num):
-        if Results[i]==Answers[i]:
-            Correct.append(i+1)
-        else:
-            Wrong.append(i+1)
-    i+=1
+    i=0
+    if(Answers==[]):
+        pass
+    else:
+        while True:
+            if(i==num):
+                break
+            if Results[i]==Answers[i]:
+                Correct.append(i+1)
+            else:
+                Wrong.append(i+1)
+            i+=1
     while i<len(Results):
         Wrong.append(i+1)
         i+=1

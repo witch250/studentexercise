@@ -7,10 +7,12 @@ import os
 #py main.py -e Exercises.txt -a YourAnswers.txt
 if __name__=='__main__':
     try:
+        flag=False
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
         put=sys.argv
         if len(put)>1: #调用cmd
             try:
+                flag=True
                 if put[1]=='' or put[2]=='' or put[3]=='' or put[4]=='':
                     pass
                 elif put[1]=='-n' and put[3]=='-r':
@@ -40,7 +42,7 @@ if __name__=='__main__':
                     pass
             except IndexError:
                 raise IndexError("输入过少") 
-        elif len(put)==1: #脚本内参数
+        if flag==False: #脚本内参数
             N=10
             r=10             #r以内，不包括r
             exercisespath="Exercises.txt"
@@ -75,4 +77,6 @@ if __name__=='__main__':
         print(e)
     except NameError:
         print("输入有误")
+    except UnicodeDecodeError as e:
+        print(e)
     os.system('pause')
