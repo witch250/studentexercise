@@ -92,37 +92,9 @@ def CutKuoHao(q):   #删除首个括号，使它更加简洁
                     string+=i
                 q=string
                 break
-        '''
-        for i in q[-2::-1]: #从倒数第二开始，倒着每次进1
-            if i=='(':  #说明如果我切了，末尾会剩下'('
-                return q
-            if i==')':
-                Q=[]
-                string=''
-                for j in q:
-                    Q.append(j)
-                del Q[0]
-                del Q[-1]
-                for i in Q:
-                    string+=i
-                q=string
-                break'
-            '''
     else:
         pass
     return q
-
-def CreateQuestions(r,n):   #r是最大数字，n是算式数量
-    Questions=[]
-    for i in range(n):
-        q=CreateQuestion(r)
-        print(q)
-        q=CutA(q)
-        #print(q)
-        q=CutKuoHao(q)
-        #print(q)
-        Questions.append(q)
-    return Questions
   
 def ReversePolish(i):
     S=[]    #存放+-*/(
@@ -217,13 +189,3 @@ def GiveResult(Question):   #字符串Q
                         num=FractionDiv(num2,num1)
                 S.append(str(num))  
     return(S[0])
-
-def CalculateResults(Questions):
-    Results=[]  
-    for i in Questions:
-        Question=ReversePolish(i)       #给出逆波兰式
-        #print(Question)
-        result=GiveResult(Question)     #计算逆波兰式的值
-        Results.append(result)
-        #print(result)
-    return Results
