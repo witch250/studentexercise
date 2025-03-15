@@ -116,6 +116,8 @@ def FractionSub(num1,num2): #传进来的分数最简,整数-分数，分数-分
         UP=DOWN2-UP2
         DOWN=DOWN2
         ADD=eval(num1)-ADD2-1
+        if(ADD<0):      #计算负数不仅错误，结果也是错的
+            return -1
         L2.insert(3,str(DOWN))
         L2.insert(2,str(UP))
         L2.insert(1,str(ADD))
@@ -140,6 +142,8 @@ def FractionSub(num1,num2): #传进来的分数最简,整数-分数，分数-分
             del L[i]
         num=TurnListToNumber(S)
         num-=eval(num2)         #相减
+        if(num<0):      
+            return -1
         L.insert(1,str(num))
         string=''               #转回字符串
         for i in L:
@@ -168,6 +172,8 @@ def FractionSub(num1,num2): #传进来的分数最简,整数-分数，分数-分
         if (UP1/DOWN1)-(UP1/DOWN1)<0:
             withadd=-1
         ADD=ADD1-ADD2+withadd
+        if(ADD<0):      
+            return -1
         if(UP==0):                   
             return str(ADD)
         else:                           #L1=C+/，所以往里插入
@@ -188,7 +194,7 @@ def FractionMul(num1,num2):
         num2=num1
         num1=t
     if(num1=='0'):
-        return num1
+        return '0'
     if num1.isdecimal():        #一个整数，一个分数
         L2=[]
         for elem in num2:       #字符串转列表提取数字

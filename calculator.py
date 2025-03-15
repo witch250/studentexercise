@@ -184,9 +184,13 @@ def GiveResult(Question):   #字符串Q
                         num=num1+num2
                     elif elem=='-':
                         num=num2-num1
+                        if(num<0):
+                            return -1
                     elif elem=='*':
                         num=num1*num2
                     elif elem=='/':             #这一步可能产生分数
+                        if(num1==0):            #4/(2-2)
+                            return -1
                         if GreatestCommonDivisor(num1,num2)==num1:  #默认2>1
                             num=num2/num1
                             num=int(num) 
@@ -203,10 +207,14 @@ def GiveResult(Question):   #字符串Q
                         num=FractionAdd(num2,num1)
                     elif elem=='-':
                         num=FractionSub(num2,num1)
+                        if(num==-1):
+                            return -1
                     elif elem=='*':
                         num=FractionMul(num2,num1)
-                    elif elem=='/':             
-                        num=FractionDiv(num2/num1)
+                    elif elem=='/':        
+                        if(num1=='0'):        #1/2-(1/2-1/2)
+                            return -1     
+                        num=FractionDiv(num2,num1)
                 S.append(str(num))  
     return(S[0])
 
