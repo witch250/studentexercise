@@ -169,7 +169,7 @@ def FractionSub(num1,num2): #传进来的分数最简,整数-分数，分数-分
         UP2=int(UP2*(DOWN/DOWN2))
         UP=((UP1+DOWN)-UP2)%DOWN
         withadd=0
-        if (UP1/DOWN1)-(UP1/DOWN1)<0:
+        if (UP1/DOWN1)-(UP2/DOWN2)<0:
             withadd=-1
         ADD=ADD1-ADD2+withadd
         if(ADD<0):      
