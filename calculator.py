@@ -1,7 +1,7 @@
 import random
 from fractioncalculation import *
 from othermath import GreatestCommonDivisor
-
+from classerror import *
 def createnumber(a,b):
     return random.randint(a,b)  #包括a,b
 
@@ -31,6 +31,10 @@ def CutA(Question):     #展示完了就删除A
     return string
 
 def CreateQuestion(r):    #r是最大数字
+    if(r<=0):
+        raise RTooSmallError("给定的参数r过小")
+    if(r>10):
+        raise RTooBigError("给定的参数r过大")
     count=createnumber(2,4)     #算式中项的个数
     string=''                   #将算式保存在字符串中
     sign='+'
