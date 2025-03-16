@@ -36,9 +36,9 @@ def main(N,r):
     except NameError:
         raise NameError("请确保输入是否正确")
     except RTooBigError:
-        raise RTooBigError
+        raise RTooBigError("给定的参数r过大")
     except RTooSmallError:
-        raise RTooSmallError
+        raise RTooSmallError("给定的参数r过小")
     
 def checkmain(put):
     try:
@@ -60,6 +60,14 @@ def checkmain(put):
         raise MemoryError("内存溢出")
     except NameError:
         raise NameError("请确保输入是否正确")
+    except PermissionError:
+        raise PermissionError("不允许访问文件")
+    except OSError:
+        raise OSError("请检查斜杠")
+    except UnicodeDecodeError:
+        raise UnicodeDecodeError("文件类型错误")
+    except FileNotFoundError:
+        raise FileNotFoundError("找不到文件")
     
 if __name__=='__main__':
     try:
@@ -108,6 +116,6 @@ if __name__=='__main__':
         print(e)
     except RTooSmallError as e:
         print (e)
-    except NTooSmallError as e 
+    except NTooSmallError as e:
         print(e)
     os.system('pause')
