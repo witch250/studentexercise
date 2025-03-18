@@ -10,9 +10,10 @@ from classerror import *
 def main(N,r):
     try:
         if(N<0):
-            raise NTooSmallError("")
+            raise NTooSmallError("输入的n过小")
         Questions=[]
         Results=[]
+        Hash=[]
         i=1
         while True:             #没有重复检测
             q=CreateQuestion(r-1)
@@ -21,10 +22,15 @@ def main(N,r):
             q=CutA(q)                       #去除分数标志A
 
             Question=ReversePolish(q)       #给出逆波兰式
-            result=GiveResult(Question)     #计算逆波兰式的值
+            result,hash=GiveResult(Question)     #计算逆波兰式的值
             if result==-1:                  #结果不合法那就重新来一个
                 continue
+            if(r!=1):
+                for j in range(0,i-1):
+                    if(result==Results[j] and hash==Hash[j]):
+                        continue
             i+=1
+            Hash.append(hash)
             Questions.append(showq)
             Results.append(result)
             if(i==N+1):

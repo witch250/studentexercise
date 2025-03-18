@@ -2,6 +2,7 @@ import random
 from fractioncalculation import *
 from othermath import GreatestCommonDivisor
 from classerror import *
+from diyhash import *
 def createnumber(a,b):
     return random.randint(a,b)  #包括a,b
 
@@ -148,6 +149,7 @@ def ReversePolish(i):
 
 def GiveResult(Question):   #字符串Q
     S=[]
+    hash=0b0
     for elem in Question:
         if elem==' ':  
             pass
@@ -157,21 +159,22 @@ def GiveResult(Question):   #字符串Q
             elif elem=='+' or elem=='-' or elem=='*' or elem=='/':  #遇到符号，弹出两个数字计算后，再压入栈
                 num1=S.pop()
                 num2=S.pop()
+                hash+=diyhash(num2,num1,elem)
                 if num1.isdecimal() and num2.isdecimal():   #都只含数字
                     #仅对整数有效
-                    num1=eval(num1)
-                    num2=eval(num2)
+                    num1=int(num1)
+                    num2=int(num2)
                     if elem=='+':
                         num=num1+num2
                     elif elem=='-':
                         num=num2-num1
                         if(num<0):
-                            return -1
+                            return -1,0b0
                     elif elem=='*':
                         num=num1*num2
                     elif elem=='/':             #这一步可能产生分数
                         if(num1==0):            #4/(2-2)
-                            return -1
+                            return -1,0b0
                         if GreatestCommonDivisor(num1,num2)==num1:  #默认2>1
                             num=num2/num1
                             num=int(num) 
@@ -189,12 +192,12 @@ def GiveResult(Question):   #字符串Q
                     elif elem=='-':
                         num=FractionSub(num2,num1)
                         if(num==-1):
-                            return -1
+                            return -1,0b0
                     elif elem=='*':
                         num=FractionMul(num2,num1)
                     elif elem=='/':        
                         if(num1=='0'):        #1/2-(1/2-1/2)
-                            return -1     
+                            return -1,0b0     
                         num=FractionDiv(num2,num1)
                 S.append(str(num))  
-    return(S[0])
+    return S[0],hash

@@ -1,11 +1,12 @@
 import math
 from othermath import GreatestCommonDivisor
+
 #别问我为什么这么多行，有些是大概相通的
 def TurnListToNumber(L):
     num=0
     n=1
     while L:
-        num+=eval(L.pop())*n
+        num+=int(L.pop())*n
         n=n*10
     return num
 
@@ -63,7 +64,7 @@ def FractionAdd(num1,num2): #传进来的分数最简
             S.append(L[i])
             del L[i]
         num=TurnListToNumber(S)
-        num+=eval(num1)         #相加
+        num+=int(num1)         #相加
         L.insert(1,str(num))
         string=''               #转回字符串
         for i in L:
@@ -115,7 +116,7 @@ def FractionSub(num1,num2): #传进来的分数最简,整数-分数，分数-分
         DOWN2=TurnListToNumber(down2)
         UP=DOWN2-UP2
         DOWN=DOWN2
-        ADD=eval(num1)-ADD2-1
+        ADD=int(num1)-ADD2-1
         if(ADD<0):      #计算负数不仅错误，结果也是错的
             return -1
         L2.insert(3,str(DOWN))
@@ -141,7 +142,7 @@ def FractionSub(num1,num2): #传进来的分数最简,整数-分数，分数-分
             S.append(L[i])
             del L[i]
         num=TurnListToNumber(S)
-        num-=eval(num2)         #相减
+        num-=int(num2)         #相减
         if(num<0):      
             return -1
         L.insert(1,str(num))
@@ -203,13 +204,13 @@ def FractionMul(num1,num2):
         ADD2=TurnListToNumber(add2)
         UP2=TurnListToNumber(up2)
         DOWN2=TurnListToNumber(down2)
-        UP=UP2*eval(num1)
+        UP=UP2*int(num1)
         DOWN=DOWN2
         withadd=0                       #分子大过分母则变为整数
         while UP>DOWN:
             UP-=DOWN
             withadd+=1
-        ADD=ADD2*eval(num1)+withadd
+        ADD=ADD2*int(num1)+withadd
         UP,DOWN=SimpleFraction(UP,DOWN)     #化简分数
         L2.insert(3,str(DOWN))
         L2.insert(2,str(UP))
