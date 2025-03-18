@@ -3,6 +3,7 @@ from fractioncalculation import *
 from write import *
 from calculator import *
 from check import *
+from diyhash import *
 import os
 def testreadquestion():
     Questions=ReadQuestions("Exercises.txt")
@@ -14,39 +15,42 @@ def testcheck():
     YourAnswers=ReadAnswers("YourAnswers.txt")
     Answers=ReadAnswers("Answers.txt")
     WriteCheck("Grade.txt",Answers,YourAnswers)
-
-def testmain():
-    N=10000
-    r=10
-    Questions=[]
-    Results=[]
-    for i in range(0,N+1):
-        q=CreateQuestion(r-1)
-        print("生成式子")
-        print(q)
-        q=CutA(q)
-        print("切除A")
-        print(q)
-        q=CutKuoHao(q)
-        print("切除括号")
-        print(q)
-        print("完毕")
-
-        print("逆波兰式")
+def testhash():
+    Q=['3+(2+1)','1+2+3','(1+2)+3','3+(1+2)','3+2+1','(3+2)+1']
+    for q in Q:
         Question=ReversePolish(q)       #给出逆波兰式
-        print("结果")
-        result=GiveResult(Question)     #计算逆波兰式的值
-        if result==-1:
-            i-=1
-            continue
-        Questions.append(q)
-        Results.append(result)
-    print(Questions)
-    print(Results)
+        #print("结果")
+        result,hash=GiveResult(Question)     #计算逆波兰式的值
+        print("-----------")
+        print(result)
+        print(hash)
+
+def testhash1():
+    Q=['1/2','1/2']
+    for q in Q:
+        Question=ReversePolish(q)       #给出逆波兰式
+        #print("结果")
+        result,hash=GiveResult(Question)     #计算逆波兰式的值
+        print("-----------")
+        print(result)
+        print(hash)
+        
+def testmain1():
+    main(100,10)
+
+def testmain2():
+    main(100,1)
+
+def testmain3():
+    main(100,2)
+
+def testmain4():
+    main(100,3)
 
 if __name__=='__main__':
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     #testreadquestion()
     #testreadanswer()
     #testcheck()
-    testmain()
+    testmain4()
+    #testhash1()

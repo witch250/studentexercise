@@ -11,10 +11,15 @@ def main(N,r):
     try:
         if(N<0):
             raise NTooSmallError("输入的n过小")
+        if(N>100 and r<=4):
+            raise RTooSmallError("输入的r过小")
+        if(N>20000):
+            raise NTooBigError("输入的n过大")
         Questions=[]
         Results=[]
         Hash=[]
         i=1
+        flag=False
         while True:             #没有重复检测
             q=CreateQuestion(r-1)
             q=CutKuoHao(q)                  #仅简化第一个和最后一个括号
@@ -25,16 +30,21 @@ def main(N,r):
             result,hash=GiveResult(Question)     #计算逆波兰式的值
             if result==-1:                  #结果不合法那就重新来一个
                 continue
-            if(r!=1):
+            if(r!=1 or r!=2):
                 for j in range(0,i-1):
                     if(result==Results[j] and hash==Hash[j]):
-                        continue
+                        flag=True
+                        break
+            if(flag==True):
+                flag=False
+                continue
             i+=1
             Hash.append(hash)
             Questions.append(showq)
             Results.append(result)
             if(i==N+1):
                 break
+        print(Hash)
         WriteQuestions(Questions)
         WriteResults(Results)
     except MemoryError:
@@ -123,5 +133,7 @@ if __name__=='__main__':
     except RTooSmallError as e:
         print (e)
     except NTooSmallError as e:
+        print(e)
+    except NTooBigError as e:
         print(e)
     os.system('pause')

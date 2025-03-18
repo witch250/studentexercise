@@ -10,3 +10,6 @@ class RTooBigError(Error):
 class NTooSmallError(Error):
     pass
 
+class NTooBigError(Error):
+    pass
+
