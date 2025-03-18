@@ -44,7 +44,6 @@ def main(N,r):
             Results.append(result)
             if(i==N+1):
                 break
-        print(Hash)
         WriteQuestions(Questions)
         WriteResults(Results)
     except MemoryError:

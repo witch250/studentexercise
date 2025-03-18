@@ -7,14 +7,50 @@ from diyhash import *
 import os
 def testreadquestion():
     Questions=ReadQuestions("Exercises.txt")
-    print(Questions)
+    #print(Questions)
+
+def testreadquestion1():        #抛出找不到文件
+    try:
+        Questions=ReadQuestions("1")
+    except:
+        raise FileNotFoundError
+    #print(Questions)
+
+def testreadquestion2():        #抛出不允许访问
+    try:
+        Questions=ReadQuestions("c:")
+    except:
+        raise PermissionError
+    #print(Questions)
+
 def testreadanswer():
     Answers=ReadAnswers("Answers.txt")
-    print(Answers)
+    #print(Answers)
+
+def testreadanswer1():        #抛出找不到文件
+    try:
+        Answers=ReadAnswers("1")
+    except:
+        raise FileNotFoundError
+    #print(Answers)
+
+def testreadanswer2():        #抛出不允许访问
+    try:
+        Answers=ReadAnswers("c:")
+    except:
+        raise FileNotFoundError
+    #print(Answers)
+
 def testcheck():
     YourAnswers=ReadAnswers("YourAnswers.txt")
     Answers=ReadAnswers("Answers.txt")
     WriteCheck("Grade.txt",Answers,YourAnswers)
+
+def testcheck1():
+    YourAnswers=ReadAnswers("none.txt")
+    Answers=ReadAnswers("none.txt")
+    WriteCheck("Grade.txt",Answers,YourAnswers)
+
 def testhash():
     Q=['3+(2+1)','1+2+3','(1+2)+3','3+(1+2)','3+2+1','(3+2)+1']
     for q in Q:
@@ -26,7 +62,7 @@ def testhash():
         print(hash)
 
 def testhash1():
-    Q=['1/2','1/2']
+    Q=['1/2','1/2','2/1']
     for q in Q:
         Question=ReversePolish(q)       #给出逆波兰式
         #print("结果")
@@ -38,19 +74,33 @@ def testhash1():
 def testmain1():
     main(100,10)
 
-def testmain2():
-    main(100,1)
+def testmain2():    #预计引发raise RTooSmallError
+    try:
+        main(100,1)     #生成0
+    except:
+        raise RTooSmallError
 
 def testmain3():
     main(100,2)
 
+def testmain31():   #预计引发RTooSmallError，n太大
+    try:
+        main(1000,2)   
+    except:
+        raise RTooSmallError
+
 def testmain4():
     main(100,3)
 
+def testmain5():
+    main(10000,10)
+
+def testmain51():    #NTooBigError
+    main(40000,10)
 if __name__=='__main__':
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    #testreadquestion()
+    #testreadquestion2()
     #testreadanswer()
-    #testcheck()
-    testmain4()
+    testcheck1()
+    #testmain51()
     #testhash1()
