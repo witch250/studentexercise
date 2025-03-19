@@ -62,8 +62,10 @@ def checkmain(put):
         Questions=ReadQuestions(exercisespath)
         Answers=[]
         for elem in Questions:
+            if(isQuestion(elem)==False):
+                raise NotQuestion("请检查读取的文件是否包含其他字符，或者数字大于10")
             Question=ReversePolish(elem)       #给出逆波兰式
-            result=GiveResult(Question) 
+            result,hash=GiveResult(Question) 
             Answers.append(result)
         YourAnswers=ReadAnswers(youranswerspath)
         #Answers=ReadAnswers("Answers.txt")
@@ -75,14 +77,15 @@ def checkmain(put):
         raise MemoryError("内存溢出")
     except NameError:
         raise NameError("请确保输入是否正确")
+    except FileNotFoundError:
+        raise FileNotFoundError("找不到文件")
     except PermissionError:
         raise PermissionError("不允许访问文件")
     except OSError:
         raise OSError("请检查斜杠")
     except UnicodeDecodeError:
         raise UnicodeDecodeError("文件类型错误")
-    except FileNotFoundError:
-        raise FileNotFoundError("找不到文件")
+    
     
 if __name__=='__main__':
     try:
@@ -134,5 +137,7 @@ if __name__=='__main__':
     except NTooSmallError as e:
         print(e)
     except NTooBigError as e:
+        print(e)
+    except NotQuestion as e:
         print(e)
     os.system('pause')

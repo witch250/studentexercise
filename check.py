@@ -1,4 +1,4 @@
-
+import classerror
 def ReadQuestions(txtpath): #返回一个列表元素能用逆波兰式处理的列表
     try:
         with open(txtpath,"r",encoding='UTF-8') as txt:
@@ -126,3 +126,16 @@ def WriteCheck(txtpath,Results,Answers):
         raise FileNotFoundError("找不到文件")
     except PermissionError:
         raise PermissionError("不允许访问文件")
+    
+def isQuestion(Question):
+    flag=False
+    for elem in Question:
+        if elem.isdecimal()==False and elem!='(' and elem!=')' and elem!='+' and elem !='-' and elem!='*' and elem!='/' and elem!=' ':
+            return False
+        if elem.isdecimal():
+            if(flag==True):
+                return False
+            flag=True
+        else:
+            flag=False
+    return True

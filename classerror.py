@@ -13,3 +13,6 @@ class NTooSmallError(Error):
 class NTooBigError(Error):
     pass
 
+class NotQuestion(Error):
+    pass
+

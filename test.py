@@ -23,6 +23,13 @@ def testreadquestion2():        #抛出不允许访问
         raise PermissionError
     #print(Questions)
 
+def testreadquestion3():        
+    try:
+        Questions=ReadQuestions("breakingcontent.txt")
+    except:
+        pass
+    print(Questions)
+
 def testreadanswer():
     Answers=ReadAnswers("Answers.txt")
     #print(Answers)
@@ -41,6 +48,13 @@ def testreadanswer2():        #抛出不允许访问
         raise FileNotFoundError
     #print(Answers)
 
+def testreadanswer3():        #抛出不允许访问
+    try:
+        Answers=ReadQuestions("breakingcontent.txt")
+    except:
+        pass
+    print(Answers)
+
 def testcheck():
     YourAnswers=ReadAnswers("YourAnswers.txt")
     Answers=ReadAnswers("Answers.txt")
@@ -50,6 +64,12 @@ def testcheck1():
     YourAnswers=ReadAnswers("none.txt")
     Answers=ReadAnswers("none.txt")
     WriteCheck("Grade.txt",Answers,YourAnswers)
+
+def testcheckmain():
+    checkmain(['','','breakingcontent.txt','','breakingcontent.txt'])
+
+def testcheckmain1():
+    checkmain(['','','Exercises.txt','','YourAnswers.txt'])
 
 def testhash():
     Q=['3+(2+1)','1+2+3','(1+2)+3','3+(1+2)','3+2+1','(3+2)+1']
@@ -99,8 +119,10 @@ def testmain51():    #NTooBigError
     main(40000,10)
 if __name__=='__main__':
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    #testreadquestion2()
-    #testreadanswer()
-    testcheck1()
+    #testreadquestion3()
+    #testreadanswer3()
+    #testcheck()
     #testmain51()
     #testhash1()
+    #testcheckmain()
+    testcheckmain1()
