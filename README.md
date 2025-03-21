@@ -10,6 +10,8 @@ fractioncalculation.py
 write.py
 othermath.py
 diyhash.py
-classerr.py
+classerror.py
+
+test.py
 ```
 
