@@ -1,0 +1,274 @@
+Timer unit: 1e-06 s
+
+Total time: 1.7221 s
+File: C:\Users\HONOR\Desktop\studentexercise\calculator.py
+Function: CreateQuestion at line 33
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    33                                           @profile
+    34                                           def CreateQuestion(r):    #r是最大数字
+    35     16770       6980.1      0.4      0.4      if(r<=0):
+    36                                                   raise RTooSmallError("给定的参数r过小") 
+    37     16770       4736.0      0.3      0.3      if(r>10):
+    38                                                   raise RTooBigError("给定的参数r过大")   
+    39     16770     112416.8      6.7      6.5      count=createnumber(2,4)     #算式中项的个数 
+    40     16770       4473.3      0.3      0.3      string=''                   #将算式保存在字 符串中
+    41     16770       4183.7      0.2      0.2      sign='+'
+    42     16770       3916.4      0.2      0.2      kuohao=0                    #括号个数       
+    43     16770       3880.6      0.2      0.2      flag=True                   #当前轮是否有'('生成
+    44     50473      21098.3      0.4      1.2      for j in range(1,count+1):  #创建第一项到最 后一项
+    45     50473      15404.9      0.3      0.9          if( count!=2 and j!=count): #不在仅有两 项时，以及最后一项生成左括号,两个左括号没法相邻
+    46     28212     164464.8      5.8      9.6              if(createnumber(0,1)==1):   #50%    
+    47     13965       4636.0      0.3      0.3                  string+='('
+    48     13965       3980.4      0.3      0.2                  kuohao+=1
+    49     13965       3689.6      0.3      0.2                  flag=True
+    50     50473     291977.5      5.8     17.0          if r>1 and createnumber(0,3)==0:        #生成整数或者分数
+    51     12481     514987.4     41.3     29.9              num=createFenShu(0,r)
+    52                                                   else:
+    53     37992     209605.2      5.5     12.2              num=createnumber(0,r)
+    54     37992      12373.0      0.3      0.7              if sign and sign=='/' and num==0:   #不要1/0
+    55       599        168.1      0.3      0.0                  if(r==1):
+    56                                                               num=1
+    57                                                           else:
+    58       599       3292.5      5.5      0.2                      num=createnumber(1,r)       
+    59     37992      15651.1      0.4      0.9              num=str(num)
+    60     50473      18593.9      0.4      1.1          string+=num
+    61     50473      15695.6      0.3      0.9          if(kuohao!=0 and flag==False): #不要在生成'('的时候也生成')',否则(6)
+    62     12270      69973.5      5.7      4.1              if(createnumber(0,1)==1):
+    63      6074       1930.2      0.3      0.1                  string+=')'
+    64      6074       1699.5      0.3      0.1                  kuohao-=1
+    65
+    66     50473      16663.2      0.3      1.0          if(j==count):   #不要生成过多的符号     
+    67     16770       4688.8      0.3      0.3              break
+    68     33703     145832.9      4.3      8.5          sign=createsign()
+    69     33703      11732.1      0.3      0.7          string+=sign
+    70     33703       9074.6      0.3      0.5          flag=False
+    71     24661       7209.0      0.3      0.4      while kuohao!=0:    #补充')'
+    72      7891       2350.0      0.3      0.1          string+=')'
+    73      7891       2040.8      0.3      0.1          kuohao-=1
+    74     16770      12702.2      0.8      0.7      return string
+
+Total time: 0.562598 s
+File: C:\Users\HONOR\Desktop\studentexercise\calculator.py
+Function: ReversePolish at line 106
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   106                                           @profile
+   107                                           def ReversePolish(i):
+   108     16770       5461.5      0.3      1.0      S=[]    #存放+-*/(
+   109     16770       4522.6      0.3      0.8      L=[]    #存放数字+-*/,并且是结果
+   110    195750      78412.4      0.4     13.9      for elem in i:
+   111    178980      48831.8      0.3      8.7          if(elem==' '):
+   112                                                       pass
+   113    178980      69119.7      0.4     12.3          if(elem=='0' or elem=='1' or elem=='2' or elem=='3' or elem=='4' or elem=='5' or elem=='6' or elem=='7' or elem=='8' or elem=='9'):      
+   114     75435      21271.5      0.3      3.8              L.append(elem)
+   115    103545      26409.0      0.3      4.7          elif(elem=='('):
+   116     22440       6529.0      0.3      1.2              S.append('(')
+   117     81105      20602.9      0.3      3.7          elif(elem==')'):    #弹出所有，直到左括 号为止，包括'('
+   118     22440       5656.9      0.3      1.0              t=0
+   119     57600      18502.5      0.3      3.3              while(t!='('):
+   120     57600      17835.2      0.3      3.2                  t=S.pop()
+   121     57600      14915.3      0.3      2.7                  if(t=='('):
+   122     22440       5638.3      0.3      1.0                      break
+   123     35160      10323.6      0.3      1.8                  L.append(t)
+   124                                                   else:       #处理+-*/
+   125     58665      18293.2      0.3      3.3              if S==[]:
+   126     16770       4917.2      0.3      0.9                  S.append(elem)
+   127     41895      13926.1      0.3      2.5              elif S[-1]=='(':
+   128     22440       6369.0      0.3      1.1                  S.append(elem)
+   129     19455       5399.0      0.3      1.0              elif(elem=='+'or elem=='-'):        
+   130      7000       2242.9      0.3      0.4                  while S and S[-1]!='(' :    #此 + or - 必须在下面
+   131      3555       1218.7      0.3      0.2                      t=S.pop()
+   132      3555       1028.9      0.3      0.2                      L.append(t)
+   133      3445       1078.8      0.3      0.2                  S.append(elem)
+   134     16010       4471.7      0.3      0.8              elif(elem=='*'or elem=='/'):    # * or / 可以在 + or - 上面
+   135     17814       7086.1      0.4      1.3                  while S and S[-1]!='(' and S[-1]!='+' and S[-1]!='-':
+   136      1804        624.1      0.3      0.1                      t=S.pop()
+   137      1804        522.9      0.3      0.1                      L.append(t)
+   138     16010       4883.6      0.3      0.9                  S.append(elem)
+   139     34916      11978.6      0.3      2.1      while S!=[]:    #弹出剩余
+   140     18146       5802.0      0.3      1.0          elem=S.pop()
+   141     18146       4750.8      0.3      0.8          if(elem=='('):
+   142                                                       pass
+   143                                                   else:
+   144     18146       5196.0      0.3      0.9              L.append(elem)
+   145     16770       4228.6      0.3      0.8      string=''   #转成字符串
+   146    150870      42689.9      0.3      7.6      for i in L:
+   147    134100      44169.6      0.3      7.9          string+=i+' '
+   148     16770      17688.1      1.1      3.1      return string
+
+Total time: 3.02007 s
+File: C:\Users\HONOR\Desktop\studentexercise\calculator.py
+Function: GiveResult at line 149
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+   149                                           @profile
+   150                                           def GiveResult(Question):   #字符串Q
+   151     16770       5146.0      0.3      0.2      S=[]
+   152     16770       4241.4      0.3      0.1      hash=0b0
+   153    270082      87922.9      0.3      2.9      for elem in Question:
+   154    256932      69332.1      0.3      2.3          if elem==' ':
+   155    126656      30318.1      0.2      1.0              pass
+   156                                                   else:
+   157    130276      48350.8      0.4      1.6              if elem=='0' or elem=='1' or elem=='2' or elem=='3' or elem=='4' or elem=='5' or elem=='6' or elem=='7' or elem=='8' or elem=='9':   
+   158     74106      20492.5      0.3      0.7                  S.append(elem)
+   159     56170      16181.1      0.3      0.5              elif elem=='+' or elem=='-' or elem=='*' or elem=='/':  #遇到符号，弹出两个数字计算后，再压入栈
+   160     56170      17437.3      0.3      0.6                  num1=S.pop()
+   161     56170      16372.0      0.3      0.5                  num2=S.pop()
+   162     56170    1676277.0     29.8     55.5                  hash+=diyhash(num2,num1,elem)   
+   163     56170      18053.9      0.3      0.6                  if num1.isdecimal() and num2.isdecimal():   #都只含数字
+   164                                                               #仅对整数有效
+   165     26676      10269.4      0.4      0.3                      num1=int(num1)
+   166     26676       9239.0      0.3      0.3                      num2=int(num2)
+   167     26676       7424.8      0.3      0.2                      if elem=='+':
+   168      3452       1052.2      0.3      0.0                          num=num1+num2
+   169     23224       6097.5      0.3      0.2                      elif elem=='-':
+   170      3329        975.6      0.3      0.0                          num=num2-num1
+   171      3329       1059.6      0.3      0.0                          if(num<0):
+   172      1486       1138.7      0.8      0.0                              return -1,0b0       
+   173     19895       5274.7      0.3      0.2                      elif elem=='*':
+   174      3840       1225.5      0.3      0.0                          num=num1*num2
+   175     16055       4034.2      0.3      0.1                      elif elem=='/':             
+#这一步可能产生分数
+   176     16055       4425.6      0.3      0.1                          if(num1==0):            
+#4/(2-2)
+   177        46         36.3      0.8      0.0                              return -1,0b0       
+   178     16009      43845.3      2.7      1.5                          if GreatestCommonDivisor(num1,num2)==num1:  #默认2>1
+   179      1330        721.4      0.5      0.0                              num=num2/num1       
+   180      1330        752.6      0.6      0.0                              num=int(num)        
+   181                                                                   else:                   
+#无所谓
+   182     14679       4006.7      0.3      0.1                              num=''
+   183     14679       3882.0      0.3      0.1                              num3=0
+   184     14679      60541.0      4.1      2.0                              num1,num2=SimpleFraction(num1,num2)
+   185     16229       4969.9      0.3      0.2                              while num2>num1:    
+   186      1550        434.1      0.3      0.0                                  num2=num2-num1  
+   187      1550        414.6      0.3      0.0                                  num3+=1
+   188     14679      11678.4      0.8      0.4                              num+='C'+str(num3)+'+'+str(num2)+'/'+(str(num1)) #0'2/3是允许的
+   189                                                           else:   #整数分数 分数分数      
+   190     29494       7665.8      0.3      0.3                      if elem=='+':
+   191     16752     273141.8     16.3      9.0                          num=FractionAdd(num2,num1)
+   192     12742       3256.0      0.3      0.1                      elif elem=='-':
+   193      4292     110367.9     25.7      3.7                          num=FractionSub(num2,num1)
+   194      4292       1534.4      0.4      0.1                          if(num==-1):
+   195      2076       2136.6      1.0      0.1                              return -1,0b0       
+   196      8450       2113.9      0.3      0.1                      elif elem=='*':
+   197      4244     166564.2     39.2      5.5                          num=FractionMul(num2,num1)
+   198      4206       1041.1      0.2      0.0                      elif elem=='/':
+   199      4206       1146.5      0.3      0.0                          if(num1=='0'):        #1/2-(1/2-1/2)
+   200        12         12.3      1.0      0.0                              return -1,0b0       
+   201      4194     214884.2     51.2      7.1                          num=FractionDiv(num2,num1)
+   202     52550      27099.7      0.5      0.9                  S.append(str(num))
+   203     13150      15477.8      1.2      0.5      return S[0],hash
+
+Total time: 0.0908843 s
+File: C:\Users\HONOR\Desktop\studentexercise\diyhash.py
+Function: diynumhash at line 2
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     2                                           @profile
+     3                                           def diynumhash(num):
+     4    185036      90884.3      0.5    100.0      return int(num)%61
+
+Total time: 0.574513 s
+File: C:\Users\HONOR\Desktop\studentexercise\diyhash.py
+Function: diystringhash at line 5
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+     5                                           @profile
+     6                                           def diystringhash(string):
+     7     32673       9652.5      0.3      1.7      hash=0b0
+     8    236061      75159.0      0.3     13.1      for elem in string:
+     9    203388      57874.3      0.3     10.1          if elem.isdecimal():
+    10    105369     416876.2      4.0     72.6              hash+=diynumhash(elem)
+    11     32673      14950.7      0.5      2.6      return hash<<2
+
+Total time: 1.32349 s
+File: C:\Users\HONOR\Desktop\studentexercise\diyhash.py
+Function: diyhash at line 12
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    12                                           @profile
+    13                                           def diyhash(num1,num2,sign):
+    14     56170      20905.1      0.4      1.6      if num1.isdecimal():
+    15     46401     193285.8      4.2     14.6          i1=diynumhash(num1)
+    16                                               else:
+    17      9769     262533.2     26.9     19.8          i1=diystringhash(num1)
+    18     56170      19208.2      0.3      1.5      if num2.isdecimal():
+    19     33266     133041.6      4.0     10.1          i2=diynumhash(num2)
+    20                                               else:
+    21     22904     602751.8     26.3     45.5          i2=diystringhash(num2)
+    22     56170      18669.5      0.3      1.4      if sign=='+':
+    23     20204       6624.3      0.3      0.5          i=i1+i2<<3+0b11
+    24     35966       9058.1      0.3      0.7      elif sign=='-':
+    25      7621       2491.2      0.3      0.2          i=i1+i2<<3+0b111
+    26     28345       7351.8      0.3      0.6      elif sign=='*':
+    27      8084       2678.1      0.3      0.2          i=i1+i2<<3+0b1111
+    28     20261       5239.3      0.3      0.4      elif sign=='/':
+    29     20261       7972.4      0.4      0.6          i=i1+(i2<<5)+0b11111
+    30                                               else:
+    31                                                   i=i1+(i2<<9)+0b11111
+    32     56170      31683.3      0.6      2.4      return i
+
+Total time: 35.1486 s
+File: main.py
+Function: main at line 12
+
+Line #      Hits         Time  Per Hit   % Time  Line Contents
+==============================================================
+    12                                           @profile
+    13                                           def main(N,r):
+    14
+    15         1          0.5      0.5      0.0      try:
+    16         1          0.4      0.4      0.0          if(N<0):
+    17                                                       raise NTooSmallError("输入的n过小") 
+    18         1          0.4      0.4      0.0          if(N>100 and r<=4):
+    19                                                       raise RTooSmallError("输入的r过小") 
+    20         1          0.3      0.3      0.0          if(N>20000):
+    21                                                       raise NTooBigError("输入的n过大")   
+    22         1          0.3      0.3      0.0          Questions=[]
+    23         1          0.2      0.2      0.0          Results=[]
+    24         1          0.3      0.3      0.0          Hash=[]
+    25         1          0.3      0.3      0.0          i=1
+    26         1          0.2      0.2      0.0          flag=False
+    27     16770       5576.5      0.3      0.0          while True:             #没有重复检测   
+    28     16770    2039097.6    121.6      5.8              q=CreateQuestion(r-1)
+    29     16770     199903.6     11.9      0.6              q=CutKuoHao(q)                  #仅 简化第一个和最后一个括号
+    30     16770       4993.5      0.3      0.0              showq=q                         #包 含A,因为2'1/2中的'
+    31     16770     210769.7     12.6      0.6              q=CutA(q)                       #去 除分数标志A
+    32
+    33     16770    1137369.8     67.8      3.2              Question=ReversePolish(q)       #给 出逆波兰式
+    34     16770    3552892.3    211.9     10.1              result,hash=GiveResult(Question)     #计算逆波兰式的值
+    35     16770       5709.4      0.3      0.0              if result==-1:                  #结 果不合法那就重新来一个
+    36      3620        940.8      0.3      0.0                  continue
+    37     13150       3625.4      0.3      0.0              if(r!=1 or r!=2):
+    38  53748129   14130752.3      0.3     40.2                  for j in range(0,i-1):
+    39  53738129   13467704.1      0.3     38.3                      if(result==Results[j] and hash==Hash[j]):
+    40      3150        888.5      0.3      0.0                          flag=True
+    41      3150        871.6      0.3      0.0                          break
+    42     13150       5225.9      0.4      0.0              if(flag==True):
+    43      3150        808.9      0.3      0.0                  flag=False
+    44      3150        830.9      0.3      0.0                  continue
+    45     10000       3317.0      0.3      0.0              i+=1
+    46     10000       4247.6      0.4      0.0              Hash.append(hash)
+    47     10000       3193.1      0.3      0.0              Questions.append(showq)
+    48     10000       2914.2      0.3      0.0              Results.append(result)
+    49     10000       3734.8      0.4      0.0              if(i==N+1):
+    50         1          1.6      1.6      0.0                  break
+    51         1     296441.1 296441.1      0.8          WriteQuestions(Questions)
+    52         1      66795.1  66795.1      0.2          WriteResults(Results)
+    53
+    54                                               except MemoryError:
+    55                                                   raise MemoryError("内存溢出")
+    56                                               except NameError:
+    57                                                   raise NameError("请确保输入是否正确")   
+    58                                               except RTooBigError:
+    59                                                   raise RTooBigError("给定的参数r过大")   
+    60                                               except RTooSmallError:
+    61                                                   raise RTooSmallError("给定的参数r过小")

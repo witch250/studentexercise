@@ -113,14 +113,16 @@ def testmain4():
     main(100,3)
 
 def testmain5():
-    try:
-        main(10000,10)
-    except:
-        raise NTooBigError
+    main(10000,10)
+    
 
 
 def testmain51():    #NTooBigError
-    main(40000,10)
+    try:
+        main(40000,10)
+    except:
+        raise NTooBigError
+    
 if __name__=='__main__':
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
     testreadquestion()

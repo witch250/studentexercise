@@ -103,7 +103,7 @@ def CutKuoHao(q):   #删除首个括号，使它更加简洁
     else:
         pass
     return q
-  
+
 def ReversePolish(i):
     S=[]    #存放+-*/(
     L=[]    #存放数字+-*/,并且是结果

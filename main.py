@@ -4,10 +4,12 @@ from check import *
 import sys
 import os
 from classerror import *
+
 #py main.py -n 12 -r 10
 #py main.py -e Exercises.txt -a YourAnswers.txt
 
 def main(N,r):
+
     try:
         if(N<0):
             raise NTooSmallError("输入的n过小")
@@ -46,6 +48,7 @@ def main(N,r):
                 break
         WriteQuestions(Questions)
         WriteResults(Results)
+
     except MemoryError:
         raise MemoryError("内存溢出")
     except NameError:
@@ -88,6 +91,7 @@ def checkmain(put):
     
     
 if __name__=='__main__':
+    print("例如\npy main.py -n 12 -r 10\npy main.py -e Exercises.txt -a YourAnswers.txt\n")
     try:
         flag=False
         os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -111,9 +115,9 @@ if __name__=='__main__':
                 else:
                     pass
             except IndexError:
-                raise IndexError("输入过少") 
+                raise IndexError("输入过少,请同时给定-n 10 -r 10 或-e xxx -a xxx") 
         if flag==False: #脚本内参数
-            N=10
+            N=100
             r=10             #r以内，不包括r
             exercisespath="Exercises.txt"
             youranswerspath="YourAnswers.txt"
