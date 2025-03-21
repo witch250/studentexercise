@@ -45,12 +45,12 @@ def testreadanswer2():        #抛出不允许访问
     try:
         Answers=ReadAnswers("c:")
     except:
-        raise FileNotFoundError
+        raise PermissionError
     #print(Answers)
 
-def testreadanswer3():        #抛出不允许访问
+def testreadanswer3():        
     try:
-        Answers=ReadQuestions("breakingcontent.txt")
+        Answers=ReadAnswers("breakingcontent.txt")
     except:
         pass
     print(Answers)
@@ -113,16 +113,65 @@ def testmain4():
     main(100,3)
 
 def testmain5():
-    main(10000,10)
+    try:
+        main(10000,10)
+    except:
+        raise NTooBigError
+
 
 def testmain51():    #NTooBigError
     main(40000,10)
 if __name__=='__main__':
     os.chdir(os.path.dirname(os.path.abspath(__file__)))
-    #testreadquestion3()
+    testreadquestion()
+    try:
+        testreadquestion1()
+    except FileNotFoundError:
+        print("filenotfound")
+    finally:
+        try:
+            testreadquestion2()
+        except PermissionError:
+            print("Permission")
+        finally:
+            testreadquestion3()
+            testreadanswer()
+            try:
+                testreadanswer1()
+            except FileNotFoundError:
+                print("filenotfound")
+            finally:
+                try:
+                    testreadanswer2()
+                except PermissionError:
+                    print("Permission")
+                finally:
+                    testreadanswer3()
+                    testcheck()
+                    testcheck1()
+                    testhash()
+                    testhash1()
+                    testmain1()
+                    try:
+                        testmain2()
+                    except RTooSmallError:
+                        print("rsmall")
+                    finally:
+                        testmain3()
+                        try:
+                            testmain31()
+                        except RTooSmallError:
+                            print("rsmall")
+                        finally:
+                            testmain4()
+                            testmain5()
+                            try:
+                                testmain51()
+                            except NTooBigError:
+                                print("ntoobig")
     #testreadanswer3()
     #testcheck()
     #testmain51()
     #testhash1()
     #testcheckmain()
-    testcheckmain1()
+    #testcheckmain1()
